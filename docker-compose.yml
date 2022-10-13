@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  player1:
+    build: .
+    ports:
+      - 8020:8020
+    environment:
+      - server.port=8020
+      - next-player.host=player2
+      - next-player.port=8030
+  player2:
+    build: .
+    ports:
+      - 8030:8030
+    environment:
+      - server.port=8030
+      - next-player.host=player1
+      - next-player.port=8020
+      - schedule.start-new-game.cron=-
+networks:
+  default:
+    driver: bridge
